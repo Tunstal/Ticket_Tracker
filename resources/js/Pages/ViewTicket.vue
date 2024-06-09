@@ -19,11 +19,13 @@ const props = defineProps({
     comments: Array,
 });
 
+// Defined reactive variables
 const editMode = reactive({});
 const editedComment = reactive({});
 const newComment = ref("");
 const editingComment = ref(null);
 
+// Function to add a comment to the ticket
 function addComment() {
     const comment = {
         idUser: props.auth.user.idUser,
@@ -38,6 +40,7 @@ function addComment() {
     newComment.value = "";
 }
 
+// Function to edit a comment
 function editComment(idComment) {
     editingComment.value = idComment;
     editMode[idComment] = true;
@@ -47,11 +50,13 @@ function editComment(idComment) {
     editedComment[idComment] = commentToEdit ? commentToEdit.content : "";
 }
 
+// Function to cancel editing a comment
 function cancelEdit(idComment) {
     editMode[idComment] = false;
     editingComment.value = null;
 }
 
+// Function to save a comment
 function saveComment(idComment) {
     editMode[idComment] = false;
     editingComment.value = null;
@@ -70,12 +75,14 @@ function saveComment(idComment) {
     );
 }
 
+// Function to confirm an action with a dialog box
 function confirm(message) {
     if (window.confirm(message)) {
         Inertia.put(`/admin/tickets/${props.ticket.idTicket}`);
     }
 }
 
+// Function to delete a ticket with a confirmation dialog box
 function deleteTicket(idTicket) {
     if (confirm("Are you sure you want to delete this ticket?")) {
         Inertia.delete(`/admin/tickets/${idTicket}`);

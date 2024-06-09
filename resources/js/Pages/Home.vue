@@ -1,6 +1,5 @@
 <script setup>
 import Layout from "@/Layouts/AppLayout.vue";
-import { transform } from "lodash";
 import { defineProps, ref, onMounted } from "vue";
 
 // Loads the layout component
@@ -17,8 +16,6 @@ defineProps({
 });
 </script>
 
-<!-- Uses vue's conditionals to display content based user's login status
-    and authentication status -->
 <template>
     <Head>
         <title>Ticket Tracker - Home</title>

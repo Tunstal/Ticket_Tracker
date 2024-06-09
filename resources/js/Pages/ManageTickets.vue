@@ -22,21 +22,26 @@ let props = defineProps({
     filters: Object,
 });
 
+// Defines the search variable with a reactive object
 let search = reactive({ value: props.filters.search || "" });
 
+// Define the filters object with a reactive object
 let filters = reactive(props.filters);
 filters.category = filters.category || "";
 
+// Function to handle pagination
 function handlePagination(page) {
     Inertia.get("/admin/tickets", { page }, { preserveState: true });
 }
 
+// Function to delete a ticket with a confirmation dialog box
 function deleteTicket(idTicket) {
     if (confirm("Are you sure you want to delete this ticket?")) {
         Inertia.delete(`/admin/tickets/${idTicket}`);
     }
 }
 
+// Function to search for tickets and filter by category
 watch(
     [() => filters.category, () => search.value],
     debounce(function ([newCategory, newSearch]) {

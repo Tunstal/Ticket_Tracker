@@ -13,16 +13,17 @@ const props = defineProps({
     auth: Object,
     errors: Object,
 });
-// Form
+// Form data
 const form = useForm({
     currentPassword: "",
     password: "",
     password_confirmation: "",
 });
 
+// Success message for password update
 const successMessage = ref("");
 
-// Submit
+// Submit function for password update
 const submit = () => {
     form.put("/account/password", {
         preserveState: true,

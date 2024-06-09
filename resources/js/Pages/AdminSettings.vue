@@ -6,10 +6,12 @@ import { Inertia } from "@inertiajs/inertia";
 import { defineProps, defineOptions } from "vue";
 import debounce from "lodash/debounce";
 
+// Define the layout component
 defineOptions({
     layout: Layout,
 });
 
+// Define the props for the page
 let props = defineProps({
     auth: Object,
     admin: Object,
@@ -17,12 +19,15 @@ let props = defineProps({
     errors: Object,
 });
 
+// Define the search variable
 let search = ref("");
 
+// Define the function to handle pagination
 function handlePagination(page) {
     Inertia.get("/admin/settings", { page }, { preserveState: true });
 }
 
+// Function used to search for users
 watch(
     search,
     debounce(function (value) {
@@ -34,6 +39,7 @@ watch(
     }, 300)
 );
 
+// Function to delete a user with a confirmation dialog box
 function deleteUser(idUser) {
     if (confirm("Are you sure you want to delete this user?")) {
         Inertia.delete(`/admin/settings/${idUser}`, {

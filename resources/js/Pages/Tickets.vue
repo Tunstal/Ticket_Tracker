@@ -20,12 +20,15 @@ let props = defineProps({
     filters: Object,
 });
 
+// Define the search variable with a reactive object
 let search = ref(props.filters.search);
 
+// Function to handle pagination
 function handlePagination(page) {
     Inertia.get("/tickets", { page }, { preserveState: true });
 }
 
+// Function to search for tickets
 watch(
     search,
     debounce(function (value) {
