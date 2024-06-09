@@ -15,6 +15,10 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+
+     // The handle method checks if the user is authenticated and has the correct role. 
+     // If the user is not authenticated, they are redirected to the login page. If the user 
+     // is authenticated but does not have the correct role, they are redirected to the home page.
     public function handle(Request $request, Closure $next, $role): Response
     {
         if (!Auth::check()) {

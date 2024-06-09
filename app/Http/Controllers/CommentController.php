@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class CommentController
 {
+    // Displays the Ticket page with comments
     public function store(Request $request)
     {
         $attributes = $request->validate([
@@ -26,6 +27,7 @@ class CommentController
         return redirect()->route('ticket.show', $ticket);
     }
 
+    // Function to edit a comment
     public function edit(Request $request, $idTicket,  $idComment)
     {
         $ticket = Ticket::find($idTicket);

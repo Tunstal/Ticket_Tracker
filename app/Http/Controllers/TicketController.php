@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Request;
 
 class TicketController
 {
+    // Displays the tickets page for authenticated users
     public function create()
     {
         return Inertia::render('Tickets', [
+            // Fetch all categories and tickets with search filters
             'categories' => Category::all()
                 ->when(Request::input('search'), function($query, $search) {
                     $query->where('name', 'like', "%{$search}%");
@@ -45,6 +47,7 @@ class TicketController
         ]);
     }
 
+    // Displays the ticket page with comments
     public function showTicket($id)
     {
         // This query retrieves the ticket and its comments
@@ -58,6 +61,7 @@ class TicketController
         ]);
     }
 
+    // Stores a new ticket
     public function store(\Illuminate\Http\Request $request)
     {
         $fields = $request->validate([

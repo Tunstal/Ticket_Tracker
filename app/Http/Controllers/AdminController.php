@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Request;
 
 class AdminController
 {
+    // Displays the admin tickets page
     public function adminTickets()
     {
         return Inertia::render('ManageTickets', [
+            // Fetch all categories and tickets with search and category filters
             'categories' => Category::all()
                 ->when(Request::input('search'), function($query, $search) {
                     $query->where('name', 'like', "%{$search}%");
@@ -42,6 +44,7 @@ class AdminController
         ]);
     }
 
+    // Updates the status of a ticket
     public function ticketStatus($idTicket)
     {
 
@@ -56,6 +59,7 @@ class AdminController
         return redirect("/tickets/{$idTicket}");
     }
 
+    // Deletes ticket
     function deleteTicket($idTicket)
     {
         $ticket = Ticket::find($idTicket);
@@ -69,9 +73,11 @@ class AdminController
         return redirect('/admin/tickets');
     }
 
+    // Displays the admin settings page
     public function adminSettings()
     {
         return Inertia::render('AdminSettings', [
+            // Fetch all users with search filter
             'users' => User::query()
                 ->when(Request::input('search'), function($query, $search) {
                     $query->where('username', 'like', "%{$search}%")
@@ -91,12 +97,14 @@ class AdminController
         ]);
     }
 
+    // Deletes user
     public function deleteUser($idUser)
     {
         $user = User::find($idUser);
 
         $tickets = $user->tickets;
 
+        // Delete all tickets and comments associated with the user
         if($tickets) {
             foreach ($tickets as $ticket) {
                 foreach ($ticket->comments as $comment) {

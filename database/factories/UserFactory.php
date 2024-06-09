@@ -23,6 +23,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        // The fake() helper function is used to generate fake data.
         return [
             'username' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),

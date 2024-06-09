@@ -9,14 +9,17 @@ use Illuminate\Http\RedirectResponse;
 
 class LoginController
 {
+    // Displays the login page
     public function create()
     {
+        // If the user is authenticated, redirect to the home page
         if (Auth::check()) {
             return Inertia::location('/');
         }
         return Inertia::render('Login');
     }
 
+    // Logs the user in
     public function store(Request $request): RedirectResponse
     {
         // Validate login request
@@ -25,6 +28,7 @@ class LoginController
             'password' => ['required', 'string'],
         ]);
 
+        // Strip tags from email and password fields
         $credentials['email'] = strip_tags($credentials['email']);
         $credentials['password'] = strip_tags($credentials['password']);
 
@@ -40,6 +44,7 @@ class LoginController
         ])->onlyInput('email');
     }
 
+    // Logs the user out
     public function destroy()
     {
         Auth::logout();

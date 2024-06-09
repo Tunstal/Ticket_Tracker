@@ -34,6 +34,8 @@ class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
+
+     // The share method is used to share data with the frontend that is accessible globally.
     public function share(Request $request): array
     {
         if (Auth::user() && Auth::user()->role === 'admin') {
