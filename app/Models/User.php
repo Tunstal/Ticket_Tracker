@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->role === 'guest';
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'idUser');
+    }
 }

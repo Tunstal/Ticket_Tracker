@@ -16,17 +16,17 @@ class AdminController
         return Inertia::render('ManageTickets', [
             // Fetch all categories and tickets with search and category filters
             'categories' => Category::all()
-                ->when(Request::input('search'), function($query, $search) {
+                ->when(Request::input('search'), function ($query, $search) {
                     $query->where('name', 'like', "%{$search}%");
                 }),
             'tickets' => Ticket::select('tickets.*')
-                ->when(Request::input('search'), function($query, $search) {
-                    $query->where(function($query) use ($search) {
+                ->when(Request::input('search'), function ($query, $search) {
+                    $query->where(function ($query) use ($search) {
                         $query->where('title', 'like', "%{$search}%")
                             ->orWhere('status', 'like', "%{$search}%");
                     });
                 })
-                ->when(Request::input('category'), function($query, $category) {
+                ->when(Request::input('category'), function ($query, $category) {
                     $query->where('idCategory', $category);
                 })
                 ->orderByDesc('updated_at')
@@ -79,7 +79,7 @@ class AdminController
         return Inertia::render('AdminSettings', [
             // Fetch all users with search filter
             'users' => User::query()
-                ->when(Request::input('search'), function($query, $search) {
+                ->when(Request::input('search'), function ($query, $search) {
                     $query->where('username', 'like', "%{$search}%")
                         ->orWhere('email', 'like', "%{$search}%")
                         ->orWhere('idUser', 'like', "%{$search}%");
@@ -102,19 +102,20 @@ class AdminController
     {
         $user = User::find($idUser);
 
-        $tickets = $user->tickets;
-
         // Delete all tickets and comments associated with the user
-        if($tickets) {
-            foreach ($tickets as $ticket) {
-                foreach ($ticket->comments as $comment) {
-                    $comment->delete();
+        if ($user) {
+            if ($user->tickets) {
+                foreach ($user->tickets as $ticket) {
+                    $ticket->comments()->delete();
+                    $ticket->delete();
                 }
-                $ticket->delete();
+            }
+    
+            // Only delete the user if all tickets have been deleted
+            if ($user->tickets()->count() == 0) {
+                $user->delete();
             }
         }
-
-        $user->delete();
 
         return redirect('/admin/settings');
     }
