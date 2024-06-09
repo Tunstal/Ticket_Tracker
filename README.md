@@ -22,3 +22,6 @@ To install the application, follow the steps below:
 
 -- Visit `http://localhost:8000` in your browser
 
+## Database Connection
+
+-- Ensure that you make the changes in the `.env` file so that the application connects to your MySQL database server.
