@@ -117,5 +117,5 @@ Route::post('/register', function (Request $request) {
 
     User::create($attributes);
 
-    return Inertia::render('Login');
+    return redirect()->route('login');
 })->name('register.post');
